@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include <string.h>
+
+// Definición de la estructura del Paciente
+typedef struct {
+    char nombre[60];
+    char identificacion[20];
+    float peso;       // en kilogramos
+    float altura;     // en metros
+    char tipo_sangre[5];
+    char urgencia;    // 'A' = Alta, 'M' = Media, 'B' = Baja
+    float imc;        // Índice de Masa Corporal
+} Paciente;
+
+// Prototipos de funciones
+void leerPaciente(Paciente *p, int numero);
+float calcularIMC(float peso, float altura);
+const char *textoUrgencia(char c);
+void imprimirTablaComparativa(Paciente p1, Paciente p2);
+void imprimirInformeMedico(Paciente p1, Paciente p2);
+void limpiarBuffer(void);
+
+int main() {
+    Paciente paciente1, paciente2;
+
+    printf("=========================================\n");
+    printf("    SISTEMA DE REGISTRO CLÍNICO         \n");
+    printf("=========================================\n\n");
+
+    // Lectura del primer paciente
+    printf("===== DATOS DEL PACIENTE 1 =====\n");
+    leerPaciente(&paciente1, 1);
+
+    // Lectura del segundo paciente
+    printf("\n===== DATOS DEL PACIENTE 2 =====\n");
+    leerPaciente(&paciente2, 2);
+
+    // Mostrar resultados
+    printf("\n\n");
+    imprimirTablaComparativa(paciente1, paciente2);
+    
+    printf("\n\n");
+    imprimirInformeMedico(paciente1, paciente2);
+
+    printf("\n=== FIN DEL SISTEMA ===\n");
+    return 0;
+}
+
+// Función para leer datos de un paciente con control de búfer
+void leerPaciente(Paciente *p, int numero) {
+    printf("Nombre completo: ");
+    fgets(p->nombre, 60, stdin);
+    p->nombre[strcspn(p->nombre, "\n")] = '\0';
+
+    printf("Cédula / Identificación: ");
+    fgets(p->identificacion, 20, stdin);
+    p->identificacion[strcspn(p->identificacion, "\n")] = '\0';
+
+    printf("Peso (kg): ");
+    while (scanf("%f", &p->peso) != 1 || p->peso <= 0) {
+        printf("❌ Peso inválido. Ingrese un valor positivo: ");
+        limpiarBuffer();
+    }
+    limpiarBuffer(); // ⚡ CLAVE: evita que se salte la siguiente lectura
+
+    printf("Altura (m): ");
+    while (scanf("%f", &p->altura) != 1 || p->altura <= 0.5 || p->altura > 2.5) {
+        printf("❌ Altura inválida (0.5 - 2.5 m). Intente: ");
+        limpiarBuffer();
+    }
+    limpiarBuffer(); // ⚡ Limpieza crítica entre scanf y fgets
+
+    printf("Tipo de sangre (ej: O+, A-): ");
+    fgets(p->tipo_sangre, 5, stdin);
+    p->tipo_sangre[strcspn(p->tipo_sangre, "\n")] = '\0';
+
+    do {
+        printf("Código de urgencia (A=Alta, M=Media, B=Baja): ");
+        if (scanf(" %c", &p->urgencia) != 1) {
+            limpiarBuffer();
+            continue;
+        }
+        p->urgencia = (p->urgencia >= 'a' && p->urgencia <= 'z') ? 
+                       p->urgencia - 32 : p->urgencia; // Convertir a mayúscula
+        limpiarBuffer();
+    } while (p->urgencia != 'A' && p->urgencia != 'M' && p->urgencia != 'B');
+
+    // Calcular IMC automáticamente
+    p->imc = calcularIMC(p->peso, p->altura);
+
+    printf("✅ Paciente %d registrado correctamente.\n", numero);
+}
+
+// Cálculo del Índice de Masa Corporal
+float calcularIMC(float peso, float altura) {
+    return peso / (altura * altura);
+}
+
+// Convertir código de urgencia a texto descriptivo
+const char *textoUrgencia(char c) {
+    switch (c) {
+        case 'A': return "ALTA";
+        case 'M': return "MEDIA";
+        case 'B': return "BAJA";
+        default: return "NO DEFINIDA";
+    }
+}
+
+// Limpiar el búfer de entrada — SOLUCIÓN DE PROBLEMAS DE LECTURA
+void limpiarBuffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Tabla comparativa formateada
+void imprimirTablaComparativa(Paciente p1, Paciente p2) {
+    printf("==================== TABLA COMPARATIVA DE PACIENTES ====================\n");
+    printf("%-25s | %-25s | %-25s\n", "CAMPO", "PACIENTE 1", "PACIENTE 2");
+    printf("---------------------------+---------------------------+-------------------\n");
+    printf("%-25s | %-25s | %-25s\n", "Nombre", p1.nombre, p2.nombre);
+    printf("%-25s | %-25s | %-25s\n", "Identificación", p1.identificacion, p2.identificacion);
+    printf("%-25s | %-25.2f kg | %-25.2f kg\n", "Peso", p1.peso, p2.peso);
+    printf("%-25s | %-25.2f m | %-25.2f m\n", "Altura", p1.altura, p2.altura);
+    printf("%-25s | %-25s | %-25s\n", "Tipo de Sangre", p1.tipo_sangre, p2.tipo_sangre);
+    printf("%-25s | %-25s | %-25s\n", "Urgencia", textoUrgencia(p1.urgencia), textoUrgencia(p2.urgencia));
+    printf("%-25s | %-25.2f | %-25.2f\n", "IMC", p1.imc, p2.imc);
+    printf("=========================================================================\n");
+}
+
+// Informe médico estructurado
+void imprimirInformeMedico(Paciente p1, Paciente p2) {
+    printf("======================== INFORME MÉDICO ESTRUCTURADO ========================\n");
+    printf("FECHA: 28/09/2026\t\tCIUDAD: Panamá\n");
+    printf("=============================================================================\n\n");
+
+    // Informe Paciente 1
+    printf("--- PACIENTE 1 ---\n");
+    printf("Nombre:            %s\n", p1.nombre);
+    printf("Identificación:    %s\n", p1.identificacion);
+    printf("Peso:              %.2f kilogramos\n", p1.peso);
+    printf("Altura:            %.2f metros\n", p1.altura);
+    printf("Tipo de Sangre:    %s\n", p1.tipo_sangre);
+    printf("Nivel de Urgencia: %s\n", textoUrgencia(p1.urgencia));
+    printf("Índice de Masa Corporal (IMC): %.2f — ", p1.imc);
+    if (p1.imc < 18.5) printf("Bajo peso\n");
+    else if (p1.imc < 25) printf("Peso normal ✅\n");
+    else if (p1.imc < 30) printf("Sobrepeso ⚠️\n");
+    else printf("Obesidad ⚠️\n");
+
+    printf("\n");
+
+    // Informe Paciente 2
+    printf("--- PACIENTE 2 ---\n");
+    printf("Nombre:            %s\n", p2.nombre);
+    printf("Identificación:    %s\n", p2.identificacion);
+    printf("Peso:              %.2f kilogramos\n", p2.peso);
+    printf("Altura:            %.2f metros\n", p2.altura);
+    printf("Tipo de Sangre:    %s\n", p2.tipo_sangre);
+    printf("Nivel de Urgencia: %s\n", textoUrgencia(p2.urgencia));
+    printf("Índice de Masa Corporal (IMC): %.2f — ", p2.imc);
+    if (p2.imc < 18.5) printf("Bajo peso\n");
+    else if (p2.imc < 25) printf("Peso normal ✅\n");
+    else if (p2.imc < 30) printf("Sobrepeso ⚠️\n");
+    else printf("Obesidad ⚠️\n");
+
+    printf("\n================================ FIN DEL INFORME ============================\n");
+}
