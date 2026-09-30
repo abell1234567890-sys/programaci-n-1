@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <string.h>
+
+// Función para limpiar el búfer de entrada
+void limpiarBuffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+int main() {
+    // Declaración de variables
+    char nombre[60];
+    int edad;
+    float estatura;
+    float promedio;
+    char carrera; // Letra inicial de la carrera
+    const int ANIO_ACTUAL = 2026;
+
+    // ====================== LECTURA DE DATOS ======================
+    printf("=============================================\n");
+    printf("       SISTEMA DE REGISTRO DE ESTUDIANTE    \n");
+    printf("=============================================\n\n");
+
+    // 1. Nombre completo con espacios usando fgets
+    printf("Ingrese el nombre completo del estudiante: ");
+    fgets(nombre, 60, stdin);
+    // Eliminar el salto de línea sobrante
+    nombre[strcspn(nombre, "\n")] = '\0';
+
+    // 2. Edad (entero)
+    printf("Ingrese la edad: ");
+    while (scanf("%d", &edad) != 1 || edad <= 0 || edad > 120) {
+        printf("❌ Edad inválida. Ingrese un valor entre 1 y 120: ");
+        limpiarBuffer();
+    }
+    limpiarBuffer(); // Limpia el salto de línea residual
+
+    // 3. Estatura en metros
+    printf("Ingrese la estatura en metros (ej: 1.65): ");
+    while (scanf("%f", &estatura) != 1 || estatura <= 0.5 || estatura > 2.50) {
+        printf("❌ Estatura inválida. Intente nuevamente: ");
+        limpiarBuffer();
+    }
+    limpiarBuffer();
+
+    // 4. Promedio de tres notas
+    printf("Ingrese el promedio de las tres notas (0.0 - 5.0): ");
+    while (scanf("%f", &promedio) != 1 || promedio < 0.0 || promedio > 5.0) {
+        printf("❌ Promedio inválido. Ingrese un valor entre 0.0 y 5.0: ");
+        limpiarBuffer();
+    }
+    limpiarBuffer();
+
+    // 5. Letra inicial de la carrera — manejo correcto del salto de línea
+    printf("Ingrese la letra inicial de su carrera: ");
+    scanf(" %c", &carrera); // ⚡ El espacio antes de %c consume el salto pendiente
+    limpiarBuffer();
+
+    // ====================== PROCESAMIENTO ======================
+    int anioNacimiento = ANIO_ACTUAL - edad;
+    float promedioFormateado = promedio; // Se formatea al imprimir con %.2f
+
+    // ====================== SALIDA ESTRUCTURADA ======================
+    printf("\n\n");
+    printf("\t\t==================================================\n");
+    printf("\t\t         FICHA DE DATOS DEL ESTUDIANTE           \n");
+    printf("\t\t==================================================\n");
+    printf("\n");
+    printf("\tNombre Completo:\t%s\n", nombre);
+    printf("\tEdad:\t\t\t%d años\n", edad);
+    printf("\tAño de Nacimiento:\t%d (aproximado)\n", anioNacimiento);
+    printf("\tEstatura:\t\t%.2f metros\n", estatura);
+    printf("\tPromedio:\t\t%.2f / 5.0\n", promedioFormateado);
+    printf("\tInicial de Carrera:\t%c\n", carrera);
+    printf("\n");
+    printf("\t\t==================================================\n");
+    printf("\t\t        REGISTRO COMPLETADO EXITOSAMENTE         \n");
+    printf("\t\t==================================================\n");
+    printf("\n");
+
+    return 0;
+}
