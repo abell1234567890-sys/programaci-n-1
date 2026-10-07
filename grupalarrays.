@@ -1,0 +1,125 @@
+Ejercicio 1: Inventario de Productos (Arreglo Unidimensional)
+Crea un programa que gestione un inventario simple de productos.
+#include <stdio.h>
+
+int main() {
+    // 1. Declarar arreglo de float para 5 productos
+    float precios[5];
+    float suma = 0.0, promedio;
+    int i;
+
+    // 2. Pedir al usuario que ingrese los 5 precios
+    for (i = 0; i < 5; i++) {
+        printf("Ingrese el precio del producto %d: ", i + 1);
+        scanf("%f", &precios[i]);
+    }
+
+    // 3. Bucle for para sumar todos los precios
+    for (i = 0; i < 5; i++) {
+        suma += precios[i];
+    }
+
+    // 4. Calcular promedio
+    promedio = suma / 5;
+
+    // 5. Imprimir resultados con formato de 2 decimales
+    printf("\n=== Lista de Precios ===\n");
+    for (i = 0; i < 5; i++) {
+        printf("Producto %d: %.2f\n", i + 1, precios[i]);
+    }
+
+    printf("\nEl precio total es: %.2f\n", suma);
+    printf("El precio promedio es: %.2f\n", promedio);
+
+    return 0;
+}
+
+
+
+
+
+
+Ejercicio 2: Matriz de Asientos de Cine (Arreglo Bidimensional)
+Imagina que estás creando un sistema para mostrar un mapa de asientos en un cine.
+#include <stdio.h>
+
+int main() {
+    // 1. Declarar matriz de 4 filas y 5 columnas
+    char asientos[4][5];
+    int fila, columna, i, j, k;
+
+    // 2. Inicializar TODOS los asientos como vacíos ('O')
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 5; j++) {
+            asientos[i][j] = 'O';
+        }
+    }
+
+    // 3. Pedir coordenadas para 3 asientos reservados
+    printf("=== Reserva de Asientos ===\n");
+    for (k = 0; k < 3; k++) {
+        printf("\nAsiento %d:\n", k + 1);
+        
+        do {
+            printf("Ingrese la fila del asiento reservado (0-3): ");
+            scanf("%d", &fila);
+            if (fila < 0 || fila > 3) {
+                printf("Fila inválida. Debe ser entre 0 y 3.\n");
+            }
+        } while (fila < 0 || fila > 3);
+
+        do {
+            printf("Ingrese la columna del asiento reservado (0-4): ");
+            scanf("%d", &columna);
+            if (columna < 0 || columna > 4) {
+                printf("Columna inválida. Debe ser entre 0 y 4.\n");
+            }
+        } while (columna < 0 || columna > 4);
+
+        // 4. Marcar como reservado ('X')
+        asientos[fila][columna] = 'X';
+    }
+
+    // 5. Imprimir el mapa actualizado
+    printf("\n=== Mapa de Asientos Actualizado ===\n");
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 5; j++) {
+            printf("%c ", asientos[i][j]);
+        }
+        printf("\n"); // Salto de línea por cada fila
+    }
+
+    return 0;
+}
+
+
+
+Ejercicio 3: Generador de Frases (Arreglo de char)
+Crea un programa que junte dos partes de una frase para formar una oración completa.
+#include <stdio.h>
+#include <string.h>  // Necesario para strcpy(), strcat() y strlen()
+
+int main() {
+    // 1. Declarar y asignar las dos cadenas
+    char cadena1[] = "La programación en C ";
+    char cadena2[] = "es muy divertida.";
+    
+    // 2. Tercer arreglo suficientemente grande
+    // Sumamos longitudes + 1 para el carácter nulo '\0'
+    char frase_completa[100];  // Tamaño amplio para asegurar que quepa
+
+    // 3. Copiar cadena1 al arreglo destino
+    strcpy(frase_completa, cadena1);
+
+    // 4. Concatenar/unir cadena2 al final
+    strcat(frase_completa, cadena2);
+
+    // 5. Calcular longitud y mostrar resultados
+    int longitud = strlen(frase_completa);
+
+    printf("La frase completa es: %s\n", frase_completa);
+    printf("La longitud de la frase es: %d\n", longitud);
+
+    return 0;
+}
+
