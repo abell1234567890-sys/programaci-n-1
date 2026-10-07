@@ -1,0 +1,205 @@
+#include <stdio.h>
+#include <string.h>
+
+// Prototipos de funciones
+void moduloGrados(void);
+void moduloBucles(void);
+void moduloVectores(void);
+void moduloMatrices(void);
+void moduloCadenas(void);
+
+int main(void) {
+    int opcion;
+
+    do {
+        printf("\n========================================\n");
+        printf("      APLICACIÓN CONSOLIDADA C          \n");
+        printf("========================================\n");
+        printf("1. Verificación y Grados\n");
+        printf("2. Control de Flujo con Bucles\n");
+        printf("3. Vectores: Registro de Notas y Promedio\n");
+        printf("4. Matrices: Calificaciones por Trimestre\n");
+        printf("5. Manejo de Cadenas de Texto\n");
+        printf("0. Salir del Programa\n");
+        printf("========================================\n");
+        printf("Ingresa tu opción: ");
+        
+        if (scanf("%d", &opcion) != 1) {
+            while (getchar() != '\n'); // Limpiar búfer
+            printf("Entrada no válida. Intenta nuevamente.\n");
+            continue;
+        }
+
+        switch (opcion) {
+            case 1:
+                moduloGrados();
+                break;
+            case 2:
+                moduloBucles();
+                break;
+            case 3:
+                moduloVectores();
+                break;
+            case 4:
+                moduloMatrices();
+                break;
+            case 5:
+                moduloCadenas();
+                break;
+            case 0:
+                printf("Saliendo del programa... ¡Hasta luego!\n");
+                break;
+            default:
+                printf("Opción no reconocida. Intenta nuevamente.\n");
+        }
+    } while (opcion != 0);
+
+    return 0;
+}
+
+// ========== MÓDULO 1: VERIFICACIÓN Y GRADOS ==========
+void moduloGrados(void) {
+    int edad;
+    float nota;
+    char letra;
+
+    printf("\n--- Módulo de Verificación y Grados ---\n");
+    
+    printf("Ingresa la edad del estudiante: ");
+    scanf("%d", &edad);
+    printf("Ingresa la nota numérica (0-100): ");
+    scanf("%f", &nota);
+
+    // Clasificación con if-else y operador ternario
+    printf("\nCategoría por edad: %s\n", 
+           edad < 12 ? "Niño" :
+           edad < 18 ? "Adolescente" :
+           "Adulto");
+
+    // Asignar letra
+    if (nota >= 90) letra = 'A';
+    else if (nota >= 80) letra = 'B';
+    else if (nota >= 70) letra = 'C';
+    else letra = 'D';
+
+    // Mensaje con switch
+    printf("Calificación por letra: %c — ", letra);
+    switch (letra) {
+        case 'A':
+            printf("Excelente rendimiento.\n");
+            break;
+        case 'B':
+            printf("Buen rendimiento.\n");
+            break;
+        case 'C':
+            printf("Rendimiento suficiente.\n");
+            break;
+        default:
+            printf("Necesita mejorar.\n");
+    }
+}
+
+// ========== MÓDULO 2: CONTROL DE FLUJO CON BUCLES ==========
+void moduloBucles(void) {
+    int nota;
+    printf("\n--- Módulo de Control de Flujo con Bucles ---\n");
+    printf("Ingresa notas entre 0 y 100.\n");
+    printf("Escribe -1 para finalizar la carga.\n");
+
+    while (1) {
+        printf("Nota: ");
+        scanf("%d", &nota);
+
+        if (nota == -1) {
+            printf("Finalizando carga...\n");
+            break;
+        }
+        if (nota < 0 || nota > 100) {
+            printf("Valor inválido — descartando...\n");
+            continue;
+        }
+        printf("Nota %d registrada correctamente.\n", nota);
+    }
+}
+
+// ========== MÓDULO 3: VECTORES — REGISTRO Y PROMEDIO ==========
+void moduloVectores(void) {
+    int notas[5];
+    int suma = 0;
+    float promedio;
+    int i;
+
+    printf("\n--- Módulo de Vectores: Registro de Notas ---\n");
+    for (i = 0; i < 5; i++) {
+        printf("Ingresa nota %d: ", i + 1);
+        scanf("%d", &notas[i]);
+        suma += notas[i];
+    }
+
+    promedio = (float)suma / 5.0;
+
+    printf("\nLista completa de calificaciones:\n");
+    for (i = 0; i < 5; i++) {
+        printf("Nota %d: %d\n", i + 1, notas[i]);
+    }
+    printf("Promedio final: %.2f\n", promedio);
+}
+
+// ========== MÓDULO 4: MATRICES — CALIFICACIONES POR TRIMESTRE ==========
+void moduloMatrices(void) {
+    float notas_estudiantes[3][4]; // 3 estudiantes × 4 asignaturas
+    int i, j;
+
+    printf("\n--- Módulo de Matrices: Calificaciones por Trimestre ---\n");
+    for (i = 0; i < 3; i++) {
+        printf("\n>> Estudiante %d\n", i + 1);
+        for (j = 0; j < 4; j++) {
+            printf("  Asignatura %d: ", j + 1);
+            scanf("%f", &notas_estudiantes[i][j]);
+        }
+    }
+
+    // Mostrar en formato tabular
+    printf("\n=== RESUMEN DE CALIFICACIONES ===\n");
+    printf("Estudiante\tAsig1\tAsig2\tAsig3\tAsig4\n");
+    for (i = 0; i < 3; i++) {
+        printf("%d\t\t", i + 1);
+        for (j = 0; j < 4; j++) {
+            printf("%.1f\t", notas_estudiantes[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// ========== MÓDULO 5: MANEJO DE CADENAS ==========
+void moduloCadenas(void) {
+    char nombre[30], apellido[30], completo[60];
+    char nombre_buscar[60];
+
+    printf("\n--- Módulo de Manejo de Cadenas de Texto ---\n");
+    printf("Ingresa el nombre: ");
+    scanf("%s", nombre);
+    printf("Ingresa el apellido: ");
+    scanf("%s", apellido);
+
+    // Preparar buffer y concatenar
+    strcpy(completo, nombre);
+    strcat(completo, " ");
+    strcat(completo, apellido);
+
+    printf("\nNombre completo: %s\n", completo);
+    printf("Longitud total (incluyendo espacio): %zu caracteres\n", strlen(completo));
+
+    // Validar coincidencia
+    printf("\nIngresa el nombre completo para verificar: ");
+    getchar(); // Limpiar salto pendiente
+    fgets(nombre_buscar, sizeof(nombre_buscar), stdin);
+    // Eliminar salto de línea al final
+    nombre_buscar[strcspn(nombre_buscar, "\n")] = '\0';
+
+    if (strcmp(completo, nombre_buscar) == 0) {
+        printf("✅ Coincidencia confirmada.\n");
+    } else {
+        printf("❌ Los nombres no coinciden.\n");
+    }
+}
