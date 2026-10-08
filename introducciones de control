@@ -1,0 +1,145 @@
+Actividad 1: Uso de if else
+Escribe un programa que pida al usuario que ingrese un número entero. El programa debe imprimir "El número es par" si el número es divisible por 2, y "El número es impar" en caso contrario.
+Pista: Usa el operador módulo (%) para verificar la paridad. Un número es par si numero % 2 == 0.
+#include <stdio.h>
+
+int main() {
+    // Declaramos la variable para almacenar el número
+    int numero;
+
+    // Pedimos al usuario que ingrese un número entero
+    printf("Ingresa un número entero: ");
+    scanf("%d", &numero);
+
+    // Verificamos si es par o impar con if-else y el operador módulo
+    if (numero % 2 == 0) {
+        printf("El número es par\n");
+    } else {
+        printf("El número es impar\n");
+    }
+
+    return 0;
+}
+
+Actividad 2: Uso de switch
+Crea un programa que le pida al usuario un número del 1 al 7. El programa debe usar una sentencia switch para imprimir el día de la semana correspondiente. Por ejemplo, si el usuario ingresa 1, debe imprimir "Lunes". Si ingresa un número fuera del rango, debe imprimir "Número no válido".
+#include <stdio.h>
+
+int main() {
+    int dia;
+
+    // Pedimos el número al usuario
+    printf("Ingresa un número del 1 al 7: ");
+    scanf("%d", &dia);
+
+    // Evaluamos con switch
+    switch (dia) {
+        case 1:
+            printf("Lunes\n");
+            break;
+        case 2:
+            printf("Martes\n");
+            break;
+        case 3:
+            printf("Miércoles\n");
+            break;
+        case 4:
+            printf("Jueves\n");
+            break;
+        case 5:
+            printf("Viernes\n");
+            break;
+        case 6:
+            printf("Sábado\n");
+            break;
+        case 7:
+            printf("Domingo\n");
+            break;
+        default:
+            printf("Número no válido\n");
+    }
+
+    return 0;
+}
+
+Actividad 3: Uso de while
+Escribe un programa que imprima los números del 10 al 1 de manera descendente. Utiliza un bucle while para lograrlo.
+
+#include <stdio.h>
+
+int main() {
+    int numero = 10;  // Empezamos desde el número 10
+
+    while (numero >= 1) {  // Mientras el número sea mayor o igual a 1
+        printf("%d\n", numero);  // Mostramos el número actual
+        numero = numero - 1;     // Restamos 1 para ir bajando
+    }
+
+    return 0;
+}
+
+Actividad 4: Uso de do while
+Modifica la actividad anterior para que el programa imprima los números del 10 al 1, pero usando un bucle do while. ¿Qué diferencia notas con el bucle while en este caso?
+#include <stdio.h>
+
+int main() {
+    int numero = 10;
+
+    while (numero >= 1) { // Primero comprueba la condición
+        printf("%d\n", numero);
+        numero--;
+    }
+
+    return 0;
+}
+¿Qué diferencia notas con el bucle while en este caso?
+Ejemplo práctico de la diferencia:
+Si cambiamos el valor inicial a 0:
+•	Con do while: imprimirá 0 y luego se detendrá → una ejecución
+•	Con while: no imprimirá nada → cero ejecuciones
+
+Actividad 5: Uso de for
+Crea un programa que calcule y muestre la suma de los números del 1 al 100. Utiliza un bucle for para iterar y acumular la suma. Pista: Necesitarás una variable para guardar el resultado de la suma, inicializada en cero.
+
+#include <stdio.h>
+
+int main() {
+    // Inicializamos la variable acumuladora en 0
+    int suma = 0;
+    int i;
+
+    // Bucle for: recorre los números del 1 al 100
+    for (i = 1; i <= 100; i++) {
+        suma = suma + i; // Acumulamos el valor de i en suma
+    }
+
+    // Mostramos el resultado
+    printf("La suma de los números del 1 al 100 es: %d\n", suma);
+
+    return 0;
+}
+
+Actividad 6: Control de Flujo con break y continue
+Escribe un programa que imprima los números del 1 al 10. Si el número es 5, el programa debe saltar la impresión de ese número y continuar con la siguiente iteración (continue). Si el número es 8, el programa debe detenerse por completo y salir del bucle (break).
+
+#include <stdio.h>
+
+int main() {
+    int numero;
+
+    for (numero = 1; numero <= 10; numero++) {
+        // Saltar la impresión cuando el número sea 5
+        if (numero == 5) {
+            continue; // Pasa directamente a la siguiente iteración
+        }
+
+        // Detener el programa cuando el número sea 8
+        if (numero == 8) {
+            break; // Sale del bucle por completo
+        }
+
+        printf("%d\n", numero);
+    }
+
+    return 0;
+}
